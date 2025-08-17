@@ -17,8 +17,9 @@ import tempfile
 import os
 import xlsxwriter
 
-# Secret key dùng để mã hóa token JWT
-SECRET_KEY = "v3NB0uYG2kCMXK19yO0Yy2FjlhwG9BWlp-4bJFeFdzA"
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("No SECRET_KEY set for JWT")
 ALGORITHM = "HS256"
 origins = [
     "https://ai-kiosk-dashboard.vercel.app",
