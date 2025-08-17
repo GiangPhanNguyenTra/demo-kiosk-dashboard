@@ -1,14 +1,15 @@
-# db.py
+import os
 import pymysql
 from contextlib import contextmanager
 
 def get_connection():
     try:
         connection = pymysql.connect(
-            host="localhost",
-            user="root",
-            password="",  # XAMPP mặc định không có password
-            database="ai_kiosk",
+            host=os.getenv("MYSQLHOST", "localhost"),
+            user=os.getenv("MYSQLUSER", "root"),
+            password=os.getenv("MYSQLPASSWORD", ""),
+            database=os.getenv("MYSQLDATABASE", "ai_kiosk"),
+            port=int(os.getenv("MYSQLPORT", 3306)),
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor,
             connect_timeout=5
@@ -17,22 +18,3 @@ def get_connection():
     except Exception as e:
         print(f"Database connection error: {e}")
         raise Exception(f"Không thể kết nối database: {str(e)}")
-
-@contextmanager
-def get_cursor():
-    conn = None
-    cursor = None
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-        yield cursor
-        conn.commit()
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        raise e
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()

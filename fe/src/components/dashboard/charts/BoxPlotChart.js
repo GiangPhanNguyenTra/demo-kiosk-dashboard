@@ -186,7 +186,7 @@ const BoxPlotChart = ({ data: filteredData, groupBy }) => {
                   )
                 ]
               },
-              xaxis: { title: { text: `Ngày trong tuần`, font: { size: 14 } }, categoryorder: 'array', categoryarray: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'], zeroline: false, gridcolor: '#e6e6e6' },
+              xaxis: { title: { text: `Ngày in (theo Thứ)${groupBy ? ` (${groupBy.toLowerCase()})` : ''}`, font: { size: 14 } }, categoryorder: 'array', categoryarray: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'], zeroline: false, gridcolor: '#e6e6e6' },
               boxmode: 'group',
               plot_bgcolor: '#f8f8f8',
               paper_bgcolor: '#f8f8f8',

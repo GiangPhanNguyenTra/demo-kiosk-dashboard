@@ -206,8 +206,7 @@ const DashboardControls = ({
       }
 
       const queryString = new URLSearchParams(params).toString();
-      const url = `${api.defaults.baseURL}/reports/export?${queryString}`;
-      
+      const url = `${api.defaults.baseURL.replace(/\/$/, "")}/reports/export?${queryString}`; 
       console.log('🔗 Export URL:', url);
       console.log('📋 Export params:', params);
 
@@ -308,9 +307,6 @@ const DashboardControls = ({
               Xuất báo cáo
             </Button>
           </Space>
-          <div style={{ fontSize: '12px', color: '#666', marginTop: 4 }}>
-            Xuất Excel (hoặc ZIP nếu Excel không khả dụng)
-          </div>
         </Col>
       </Row>
     </Card>

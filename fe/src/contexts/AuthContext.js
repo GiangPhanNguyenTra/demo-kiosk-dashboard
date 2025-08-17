@@ -6,8 +6,8 @@ import axios from 'axios';
 // This explains why you see duplicate log messages. In production, they will appear only once.
 
 // Cấu hình axios base URL
-axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.timeout = 10000; // 10 giây timeout
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'; // Default to localhost if not set
+axios.defaults.timeout = 100000; // 10 giây timeout
 
 const AuthContext = createContext();
 

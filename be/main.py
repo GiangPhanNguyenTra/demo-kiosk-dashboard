@@ -20,6 +20,10 @@ import xlsxwriter
 # Secret key dùng để mã hóa token JWT
 SECRET_KEY = "v3NB0uYG2kCMXK19yO0Yy2FjlhwG9BWlp-4bJFeFdzA"
 ALGORITHM = "HS256"
+origins = [
+    "https://ai-kiosk-dashboard.vercel.app",
+    "https://ai-kiosk-dashboard-demo.vercel.app"
+]
 
 app = FastAPI(
     title="AI-Kiosk Backend",
@@ -27,14 +31,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Cấu hình CORS (nếu test với frontend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,  # hoặc ["*"] nếu bạn chấp nhận toàn bộ
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["Content-Disposition", "Content-Type", "Content-Length"]
 )
 
 # ====== 2. Định nghĩa bảo mật JWT với OAuth2 ======
@@ -128,10 +130,26 @@ async def create_user(
     if user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Only admin can create user")
 
+    # Kiểm tra dữ liệu đầu vào hợp lệ cho từng role
+    if user_data.role == "admin":
+        # Admin không cần city_id, ward_id
+        user_data.city_id = None
+        user_data.ward_id = None
+    elif user_data.role == "city":
+        if not user_data.city_id:
+            raise HTTPException(status_code=400, detail="City user phải có city_id")
+        user_data.ward_id = None
+    elif user_data.role == "ward":
+        if not user_data.city_id or not user_data.ward_id:
+            raise HTTPException(status_code=400, detail="Ward user phải có city_id và ward_id")
+    else:
+        raise HTTPException(status_code=400, detail="Role không hợp lệ")
+
     password_hash = hashlib.sha256(user_data.password.encode()).hexdigest()
     conn = get_connection()
     with conn.cursor() as cursor:
         try:
+            # Sửa lỗi: Thêm user_id là AUTO_INCREMENT, không truyền vào INSERT
             cursor.execute(
                 "INSERT INTO users (username, password_hash, role, ward_id, city_id) VALUES (%s, %s, %s, %s, %s)",
                 (user_data.username, password_hash, user_data.role, user_data.ward_id, user_data.city_id)

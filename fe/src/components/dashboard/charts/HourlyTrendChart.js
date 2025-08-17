@@ -35,16 +35,16 @@ const HourlyTrendChart = ({ data, workingHours = { start: 7, end: 17 }, groupBy 
       mode: 'lines+markers',
       name: 'Số lần in',
       line: {
-        color:   '#59A14F',
+        color: '#1890ff',
         width: 2,
       },
       marker: {
-        color:'#59A14F',
+        color: '#1890ff',
         size: 6,
       },
       hovertemplate: 
-        '<span style="color:#fff"><b>Giờ</b>: %{x}:00<br>' +
-        '<b>Trung bình</b>: %{y:.1f} lần/ngày<br></span>' +
+        '<b>Giờ</b>: %{x}:00<br>' +
+        '<b>Trung bình</b>: %{y:.1f} lần/ngày<br>' +
         '<extra></extra>',
       text: processedData.x,
       textposition: 'top center'

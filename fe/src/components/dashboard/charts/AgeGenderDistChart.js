@@ -14,7 +14,19 @@ const AgeGenderDistChart = ({ data }) => {
     // Chọn các mốc chuyển tiếp giữa các nhóm tuổi
     const ageTickVals = [-0.5, 0.5, 1.5, 2.5, 3.5]; // vị trí giữa các cột, 0 nằm sát gốc
     const ageTickText = ['0', '18', '30', '50', ''];
-
+    const femaleTrace = {
+      x: ageLabels,
+      y: data.map(d => d.female),
+      name: 'Nữ',
+      type: 'bar',
+      marker: {
+        color: getPlotlyColor(1),
+      },
+      hovertemplate:
+        'Giới tính=Nữ<br>' +
+        'Tuổi=%{x}<br>' +
+        'Số lượng=%{y}<extra></extra>'
+    };
     const maleTrace = {
       x: ageLabels,
       y: data.map(d => d.male),
@@ -26,23 +38,10 @@ const AgeGenderDistChart = ({ data }) => {
       hovertemplate:
         'Giới tính=Nam<br>' +
         'Tuổi=%{x}<br>' +
-        'count=%{y}<extra></extra>'
-    };
-
-    const femaleTrace = {
-      x: ageLabels,
-      y: data.map(d => d.female),
-      name: 'Nữ',
-      type: 'bar',
-      marker: {
-        color: getPlotlyColor(1),
-      },
-      hovertemplate:
-        '<span style="color:#fff">' +
-        'Giới tính=Nữ<br>' +
-        'Tuổi=%{x}<br>' +
         'Số lượng=%{y}<extra></extra>'
     };
+
+    
 
     const plotData = [femaleTrace, maleTrace];
 

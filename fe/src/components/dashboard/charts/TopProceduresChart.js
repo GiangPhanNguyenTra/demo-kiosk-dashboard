@@ -67,33 +67,37 @@ const TopProceduresChart = ({ data, topK, setTopK }) => {
       values: processData.values,
       parents: new Array(processData.labels.length).fill(""),
       textinfo: "label+value",
-      textfont: {
-        color: '#fff',
-        family: 'Arial',
-        size: 14
-      },
       marker: {
         colors: processData.colors,
-        line: { width: 0, color: 'white' }
+        line: { width: 2, color: 'white' }
       },
-      fixedlayout: true
+      textfont: {
+        color: 'white', // Tất cả text trong khối là màu trắng
+        size: 16,
+        family: 'Arial'
+      },
+      hovertemplate: `
+        %{label}<br>
+        Số lượt: %{value}<br>
+        <extra></extra>
+      `
     }];
 
     const layout = {
-      margin: { t: 60, l: 10, r: 10, b: 20 },
+      margin: { t: 45, l: 10, r: 10, b: 10 },
       height: 420,
       paper_bgcolor: 'white',
       plot_bgcolor: 'white',
+      font: { family: 'Arial', color: '#222', size: 14 }, // Thống nhất font và màu chữ
       title: {
         text: `Top ${topK} thủ tục phổ biến + Khác`,
-        font: { size: 18, family: 'Arial', color: '#444' },
+        font: { size: 18, family: 'Arial', color: '#1f77b4' }, // Màu và size nổi bật cho tiêu đề
         xref: 'container',
         x: 0.5,
         y: 0.9,
         xanchor: 'center',
         yanchor: 'top'
-      },
-      pathbar: { visible: false }
+      }
     };
 
     const config = {
@@ -120,13 +124,13 @@ const TopProceduresChart = ({ data, topK, setTopK }) => {
   return (
     <Card
       title={
-        <span style={{ fontWeight: 500, fontSize: 16, marginTop: 10 }}>🔥 Top thủ tục phổ biến</span>
+        <span style={{ fontWeight: 500, fontSize: 16, marginTop: 0 }}>🔥 Top thủ tục phổ biến</span>
       }
-      style={{ marginBottom: 1,marginTop: 1 }}
+      style={{ marginBottom: 16 }}
       bodyStyle={{ padding: 12 }}
       extra={null}
     >
-      <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ fontSize: 12, color: '#666' }}>Số thủ tục hàng đầu:</span>
         <Slider
           min={1}
@@ -150,7 +154,7 @@ const TopProceduresChart = ({ data, topK, setTopK }) => {
             formatter: (value) => `Top ${value} thủ tục`,
             placement: 'bottom'
           }}
-          trackStyle={{ backgroundColor: '#1890ff', height: 4 }}
+          trackStyle={{ backgroundColor: '#1f77b4', height: 4 }}
           railStyle={{ backgroundColor: '#e1e1e1', height: 4 }}
           dotStyle={{
             borderColor: '#1f77b4',
@@ -162,8 +166,8 @@ const TopProceduresChart = ({ data, topK, setTopK }) => {
             borderWidth: 2
           }}
           activeDotStyle={{
-            borderColor: '#1890ff',
-            backgroundColor: '#1890ff',
+            borderColor: '#1f77b4',
+            backgroundColor: '#1f77b4',
             width: 8,
             height: 8,
             marginLeft: -4,
@@ -171,7 +175,7 @@ const TopProceduresChart = ({ data, topK, setTopK }) => {
           }}
         />
       </div>
-      <div ref={chartRef} style={{ width: '100%', height: 420 }}></div>
+      <div ref={chartRef} style={{ width: '100%', height: 420, marginBottom: 8 }}></div>
     </Card>
   );
 };

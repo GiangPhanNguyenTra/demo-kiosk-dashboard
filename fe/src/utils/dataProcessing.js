@@ -215,7 +215,7 @@ export const getAuthTypeData = (filteredData) => {
   return Object.entries(counts)
     .filter(([_, value]) => value > 0)
     .map(([name, value]) => ({
-      name,
+      name: name === 'CCCD' ? 'CCCD điện tử' : name,
       value,
       percent: ((value / total) * 100).toFixed(1)
     }));

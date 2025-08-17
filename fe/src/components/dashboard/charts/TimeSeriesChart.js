@@ -13,33 +13,12 @@ const TimeSeriesChart = ({ data, groupBy }) => {
   const processedData = useMemo(() => {
     if (!data || data.length === 0) return null;
 
-    if (groupBy === 'Tuần') {
-      // Group by week: tính tổng số lần in cho mỗi tuần
-      const weekMap = {};
-      data.forEach(item => {
-        const weekNumber = dayjs(item.time).week();
-        const yearNumber = dayjs(item.time).year();
-        const key = `Tuần ${weekNumber}/${yearNumber}`;
-        if (!weekMap[key]) {
-          weekMap[key] = { count: 0, time: item.time };
-        }
-        weekMap[key].count += item.count;
-      });
-      const x = Object.keys(weekMap);
-      const y = x.map(week => weekMap[week].count);
-      const labels = x.map(week => {
-        // Lấy ngày đầu và cuối tuần
-        const firstItem = weekMap[week];
-        const startOfWeek = dayjs(firstItem.time).startOf('week').format('DD/MM');
-        const endOfWeek = dayjs(firstItem.time).endOf('week').format('DD/MM');
-        return `${startOfWeek} - ${endOfWeek}`;
-      });
-      return { x, y, labels };
-    }
-
-    // Các trường hợp khác giữ nguyên
     const formatDate = (date) => {
-      if (groupBy === 'Tháng') {
+      if (groupBy === 'Tuần') {
+        const weekNumber = dayjs(date).week();
+        const yearNumber = dayjs(date).year();
+        return `Tuần ${weekNumber}/${yearNumber}`;
+      } else if (groupBy === 'Tháng') {
         return dayjs(date).format('MM/YYYY');
       } else if (groupBy === 'Năm') {
         return dayjs(date).format('YYYY');
@@ -52,7 +31,11 @@ const TimeSeriesChart = ({ data, groupBy }) => {
       x: data.map(item => formatDate(item.time)),
       y: data.map(item => item.count),
       labels: data.map(item => {
-        if (groupBy === 'Tháng') {
+        if (groupBy === 'Tuần') {
+          const startOfWeek = dayjs(item.time).startOf('week').format('DD/MM');
+          const endOfWeek = dayjs(item.time).endOf('week').format('DD/MM');
+          return `${startOfWeek} - ${endOfWeek}`;
+        } else if (groupBy === 'Tháng') {
           return dayjs(item.time).format('MM/YYYY');
         } else if (groupBy === 'Năm') {
           return dayjs(item.time).format('YYYY');
@@ -74,7 +57,7 @@ const TimeSeriesChart = ({ data, groupBy }) => {
       x: processedData.x,
       y: processedData.y,
       marker: {
-        color: '#1890ff',
+        color: '#1f77b4',
         line: {
           color: 'white',
           width: 1

@@ -67,8 +67,7 @@ const FieldFrequencyChart = ({ data }) => {
         }
       },
       hovertemplate: `
-        <span style="color:#fff">
-         %{y}<br>
+        %{y}<br>
         Tần suất=%{x}<br>
         <extra></extra>
       `

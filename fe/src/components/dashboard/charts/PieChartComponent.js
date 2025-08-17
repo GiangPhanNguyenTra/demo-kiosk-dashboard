@@ -1,14 +1,3 @@
-/**
- * PieChartComponent
- * 
- * Chức năng xuất báo cáo:
- * - Cho phép người dùng xuất biểu đồ dạng hình ảnh (PNG) thông qua nút trên thanh công cụ (mode bar) của Plotly.
- * - Người dùng có thể tải về biểu đồ với tên file được đặt theo tiêu đề biểu đồ.
- * - Hỗ trợ các tuỳ chọn xuất như: định dạng ảnh, kích thước, tỉ lệ ảnh.
- * - Ngoài ra, thanh công cụ còn cung cấp các chức năng như: phóng to, thu nhỏ, di chuyển, chọn vùng dữ liệu, đặt lại tỷ lệ, và xuất dữ liệu dưới dạng CSV (nếu Plotly hỗ trợ).
- * - Việc xuất báo cáo giúp lưu trữ, chia sẻ hoặc đính kèm biểu đồ vào các tài liệu báo cáo khác.
- */
-
 import React, { useEffect, useRef } from 'react';
 import { Card } from 'antd';
 import Plotly from 'plotly.js-dist';
@@ -25,7 +14,7 @@ const PieChartComponent = ({ data, title, height = 300, type }) => {
     const values = data?.length ? data.map(d => d.value || 0) : [1];
     const labels = data?.length ? data.map(d => {
       if (type === 'auth') {
-        return d.name;
+        return d.name === 'CCCD' ? 'CCCD điện tử' : d.name;
       }
       return d.name || 'N/A';
     }) : ['No data'];
@@ -35,7 +24,7 @@ const PieChartComponent = ({ data, title, height = 300, type }) => {
       values: values,
       labels: labels,
       textinfo: 'label+percent',
-      hovertemplate: '<span style="color:#fff">%{label}<br>Số lượng: %{value}<br>Tỷ lệ: %{percent}<extra></extra>',
+      hovertemplate: '%{label}<br>Số lượng: %{value}<br>Tỷ lệ: %{percent}<extra></extra>',
       textposition: 'auto',
       automargin: true,
       marker: {
