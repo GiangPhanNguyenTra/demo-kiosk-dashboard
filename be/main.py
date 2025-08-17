@@ -24,7 +24,8 @@ if not SECRET_KEY:
 ALGORITHM = "HS256"
 origins = [
     "https://ai-kiosk-dashboard.vercel.app",
-    "https://ai-kiosk-dashboard-demo.vercel.app"
+    "https://ai-kiosk-dashboard-demo.vercel.app",
+    "https://ai-kiosk-fe.onrender.com"
 ]
 
 app = FastAPI(
@@ -35,7 +36,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # hoặc ["*"] nếu bạn chấp nhận toàn bộ
+    allow_origins=origins,  # hoặc ["*"] nếu bạn chấp nhận toàn bộ
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
