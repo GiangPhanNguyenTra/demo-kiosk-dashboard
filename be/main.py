@@ -20,6 +20,7 @@ import xlsxwriter
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("No SECRET_KEY set for JWT")
+
 ALGORITHM = "HS256"
 origins = [
     "https://ai-kiosk-dashboard.vercel.app",
@@ -34,7 +35,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # hoặc ["*"] nếu bạn chấp nhận toàn bộ
+    allow_origins=["*"],  # hoặc ["*"] nếu bạn chấp nhận toàn bộ
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
